@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
 
 
+    public MyRecyclerAdapter() {
+        super();
+    }
+
     @NonNull
     @Override
     public MyRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,13 +39,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         // get references to each of the views in the single_item.xml
         // Todo implement constructor
 
-        public MyViewHolder() {
-            super();
-        }
-
         public MyViewHolder(@NonNull View itemView) {
-
+            super(itemView);
         }
+        
     }
 
 
