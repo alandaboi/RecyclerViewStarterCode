@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
 
+
     }
     //Todo create method that will fill list of players
     public void getPlayers(){
