@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
 import java.util.List;
 // Todo create a player class that will hold info about the player
 public class MainActivity extends AppCompatActivity {
@@ -12,20 +13,24 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    List<Player> list;
+    private ArrayList<Player> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        list = new ArrayList<>();
+        getPlayers();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.my_recycler_view);
-        mAdapter = new MyRecyclerAdapter();
+        mAdapter = new MyRecyclerAdapter(this, list);
         layoutManager = new RecyclerView.LayoutManager() {
             @Override
             public RecyclerView.LayoutParams generateDefaultLayoutParams() {
                 return null;
             }
         };
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(layoutManager);
 
 
 

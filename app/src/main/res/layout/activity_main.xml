@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--  Todo add recycler view -->
 <!--  Todo add another xml file that will hold single_player_view -->
-<android.support.v7.widget.RecyclerView
+<androidx.recyclerview.widget.RecyclerView
     android:id="@+id/my_recycler_view"
     android:scrollbars="vertical"
     android:layout_width="match_parent"
@@ -10,4 +10,4 @@
 
 
 
-</android.support.v7.widget.RecyclerView>
+</androidx.recyclerview.widget.RecyclerView>
