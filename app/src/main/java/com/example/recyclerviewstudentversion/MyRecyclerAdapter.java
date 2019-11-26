@@ -25,17 +25,16 @@ import java.util.zip.Inflater;
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
 
     protected static ArrayList<Player> list;
-    protected LayoutInflater mInflater;
 
     protected MyRecyclerAdapter(Context context, ArrayList<Player> data) {
-        this.mInflater = LayoutInflater.from(context);
         this.list = data;
     }
 
     @NonNull
     @Override
     public MyRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.single_player, parent, false);
+        LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.single_player, parent, false);
         return new MyViewHolder(view);
     }
 
