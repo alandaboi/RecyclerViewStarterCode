@@ -1,21 +1,20 @@
 package com.example.recyclerviewstudentversion;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import android.os.Bundle;
 
 import java.util.ArrayList;
-import java.util.List;
+
 // Todo create a player class that will hold info about the player
 public class MainActivity extends AppCompatActivity {
     // Todo initialize these variables
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private MyRecyclerAdapter mAdapter;
+    private GridLayoutManager layoutManager;
     private ArrayList<Player> list;
 
     @Override
@@ -26,10 +25,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.my_recycler_view);
         mAdapter = new MyRecyclerAdapter(this, list);
-        layoutManager = new GridLayoutManager(this, 3);
+        layoutManager = new GridLayoutManager(this, 1);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                final int fromPos = viewHolder.getAdapterPosition();
+                final int toPos = target.getAdapterPosition();
+                return mAdapter.swapPositions(fromPos, toPos);
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                if (direction == ItemTouchHelper.LEFT | direction == ItemTouchHelper.RIGHT) {
+                    mAdapter.removeFromList(viewHolder.getAdapterPosition());
+                }
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(layoutManager);
-
 
 
     }

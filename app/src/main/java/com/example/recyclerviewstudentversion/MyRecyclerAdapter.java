@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,21 @@ import java.util.zip.Inflater;
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
 
     protected static ArrayList<Player> list;
+    private Player lastRemoved = null;
+
+    public void removeFromList(int position) {
+        lastRemoved = list.get(position);
+        list.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public boolean swapPositions(int viewHolder, int target) {
+        Player temp = list.get(viewHolder);
+        list.set(viewHolder, list.get(target));
+        list.set(target, temp);
+        notifyItemMoved(viewHolder, target);
+        return true;
+    }
 
     protected MyRecyclerAdapter(Context context, ArrayList<Player> data) {
         this.list = data;
