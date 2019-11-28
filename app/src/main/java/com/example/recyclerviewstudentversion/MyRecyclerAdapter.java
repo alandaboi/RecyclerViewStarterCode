@@ -29,15 +29,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
     private Player lastRemoved = null;
 
     public void removeFromList(int position) {
-        lastRemoved = list.get(position);
-        list.remove(position);
+        lastRemoved = list.remove(position);
         notifyItemRemoved(position);
     }
 
     public boolean swapPositions(int viewHolder, int target) {
-        Player temp = list.get(viewHolder);
-        list.set(viewHolder, list.get(target));
-        list.set(target, temp);
+        list.set(target, list.set(viewHolder, list.get(target)));
         notifyItemMoved(viewHolder, target);
         return true;
     }
