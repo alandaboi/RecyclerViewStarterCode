@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,9 +25,10 @@ import java.util.zip.Inflater;
 //onCreateViewHolder()
 //onBindViewHolder
 //getItemCount
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
+public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> implements Filterable {
 
     protected static ArrayList<Player> list;
+    protected static ArrayList<Player> listFull;
     private Player lastRemoved = null;
 
     public void removeFromList(int position) {
@@ -41,6 +44,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
 
     protected MyRecyclerAdapter(Context context, ArrayList<Player> data) {
         this.list = data;
+        listFull = new ArrayList<>(list);
     }
 
     @NonNull
@@ -65,6 +69,38 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
     public int getItemCount() {
         return list.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Player> filteredList = new ArrayList<>();
+            if (charSequence == null || charSequence.length() == 0) {
+                filteredList.addAll(listFull);
+            } else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+                for (Player player : listFull) {
+                    if (player.getName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(player);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            list.clear();
+            list.addAll((ArrayList) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 
     // Todo implement ViewHolder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
