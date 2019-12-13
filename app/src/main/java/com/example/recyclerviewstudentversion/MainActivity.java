@@ -6,11 +6,15 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -69,6 +73,25 @@ public class MainActivity extends AppCompatActivity {
                 if (direction == ItemTouchHelper.LEFT | direction == ItemTouchHelper.RIGHT) {
                     mAdapter.removeFromList(viewHolder.getAdapterPosition());
                 }
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                MyRecyclerAdapter.MyViewHolder vh = (MyRecyclerAdapter.MyViewHolder) viewHolder;
+                LinearLayout ll = vh.linearLayout;
+
+                Paint p = new Paint();
+                if(dX > 0) {
+                    p.setARGB(255, 255, 0, 0);
+                } else if (dX < 0){
+                    p.setARGB(255, 0, 255, 0);
+                } else {
+                    p.setARGB(255, 250, 250, 250);
+                }
+
+                c.drawRect(ll.getLeft(), ll.getTop(), ll.getRight(), ll.getBottom(), p);
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);

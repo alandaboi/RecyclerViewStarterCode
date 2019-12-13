@@ -108,10 +108,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         // Todo implement constructor
         protected TextView name, age, worth, sport;
         protected ImageView imageView;
+        protected LinearLayout linearLayout;
 
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            linearLayout = itemView.findViewById(R.id.my_recycler_view);
             name = itemView.findViewById(R.id.name);
             age = itemView.findViewById(R.id.age);
             worth = itemView.findViewById(R.id.worth);
